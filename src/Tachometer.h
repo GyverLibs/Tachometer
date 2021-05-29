@@ -15,6 +15,7 @@
 
     Версии:
     v1.1
+    v1.2 - оптимизация
 */
 
 #ifndef Tachometer_h
@@ -29,7 +30,7 @@ public:
             ticks = _window - 1;
             tachoTime = micros() - tachoTimer;
             tachoTimer += tachoTime;  //== tachoTimer = micros();
-            ready = true;
+            tachoTime = median3(tachoTime);
         }
     }
     
@@ -45,32 +46,30 @@ public:
     
     // получить обороты в минуту
     uint16_t getRPM() {
-        if (ready) {	// если готовы новые данные
-            ready = false;
-            if (tachoTime != 0) rpm = (uint32_t)_window * 60000000 / median3(tachoTime);
-        }
-        if (micros() - tachoTimer > _tout) rpm = 0;
-        return rpm;
+        if (micros() - tachoTimer > _tout || tachoTime == 0) return 0;
+        else return _window * 60000000ul / tachoTime;
     }
 
     // получить герцы
     float getHz() {
-        if (ready) {  // если готовы новые данные
-            ready = false;
-            if (tachoTime != 0) hz = (float)_window * 1000000 / median3(tachoTime);
-        }
-        if (micros() - tachoTimer > _tout) hz = 0;
-        return hz;
+        if (micros() - tachoTimer > _tout || tachoTime == 0) return 0;
+        else return _window * 1000000.0 / tachoTime;
+    }
+    
+    // получить период в мкс
+    uint32_t getUs() {
+        if (micros() - tachoTimer > _tout || tachoTime == 0) return 0;
+        else return tachoTime / _window;
     }
 
-    // получить период в мкс
+    // получить период в мкс (legacy)
     uint32_t getPeriod() {
-        return median3(tachoTime);
+        return getUs();
     }
 
 private:
     // быстрая медиана
-    long median3(long value) {
+    uint32_t median3(uint32_t value) {
         buf[counter] = value;
         if (++counter > 2) counter = 0;
         if ((buf[0] <= buf[1]) && (buf[0] <= buf[2])) return (buf[1] <= buf[2]) ? buf[1] : buf[2];
@@ -80,15 +79,13 @@ private:
         }
     }
 
-    volatile uint32_t tachoTime = 100000;   // для плавного старта значений
+    volatile uint32_t tachoTime = 100000;       // для плавного старта значений
     volatile uint32_t tachoTimer = micros();
     volatile int ticks = 0;
-    volatile bool ready = false;
+    volatile int _window = 10;
+    
+    uint32_t _tout = 1000000;
     uint32_t buf[3] = {100000, 100000, 100000}; // для плавного старта значений
     uint8_t counter = 0;
-    int rpm = 0;
-    float hz = 0.0;
-    int _window = 10;
-    uint32_t _tout = 1000000;
 };
 #endif

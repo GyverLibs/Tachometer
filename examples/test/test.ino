@@ -28,12 +28,12 @@ void isr() {
 }
 
 void loop() {
-  // выводим два раза в секунду
+  // выводим несколько раз в секунду
   static uint32_t tmr;
   if (millis() - tmr > 100) {
     tmr = millis();
     Serial.println(tacho.getRPM());			// RPM
 	//Serial.println(tacho.getHz());		// Hz
-	//Serial.println(tacho.getPeriod());	// us
+	//Serial.println(tacho.getUs());	// us
   }
 }
