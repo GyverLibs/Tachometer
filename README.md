@@ -89,7 +89,7 @@ void loop() {
     tmr = millis();
     Serial.println(tacho.getRPM());			// RPM
 	//Serial.println(tacho.getHz());		// Hz
-	//Serial.println(tacho.getPeriod());	// us
+	//Serial.println(tacho.Us());	// us
   }
 }
 ```
@@ -97,6 +97,7 @@ void loop() {
 <a id="versions"></a>
 ## Версии
 - v1.1
+- v1.2
 
 <a id="feedback"></a>
 ## Баги и обратная связь
