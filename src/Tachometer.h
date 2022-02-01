@@ -7,7 +7,6 @@
     - Забирай getRPM() частоту в оборотах в минуту
     - Забирай getHz() частоту в Герцах
     - Забирай getPeriod() период в мкс
-    - Встроенный медианный фильтр от скачков
     - Встроенный таймаут отсутствия сигнала
     
     AlexGyver, alex@alexgyver.ru
@@ -65,9 +64,7 @@ private:
     bool getTime() {
         if (ticks > window) {
             tmrMs = millis();
-            buf[count] = (uint32_t)tmr / window;
-            if (++count >= 3) count = 0;
-            prd = (max(buf[0], buf[1]) == max(buf[1], buf[2])) ? max(buf[0], buf[2]) : max(buf[1], min(buf[0], buf[2]));
+            prd = (uint32_t)tmr / window;
             ticks = 0;
         }
         return (millis() - tmrMs < tout && prd);
@@ -76,10 +73,9 @@ private:
     volatile uint32_t tmr;
     volatile uint8_t ticks = 0;
     
-    uint8_t window = 10, count = 0;
+    uint8_t window = 10;
     uint32_t tmrMs = millis();
     uint32_t prd = 0;
-    uint32_t buf[3];
     uint16_t tout = 1000;
 };
 #endif
