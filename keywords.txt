@@ -15,7 +15,7 @@ tick	KEYWORD2
 getRPM	KEYWORD2
 getHz	KEYWORD2
 getUs	KEYWORD2
-getPeriod	KEYWORD2
+
 setWindow	KEYWORD2
 setTimeout	KEYWORD2
 
