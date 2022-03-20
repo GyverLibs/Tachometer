@@ -59,6 +59,10 @@ public:
     uint32_t getUs() {
         return getTime() ? prd : 0;
     }
+    // Return Total Tick Count 
+    uint32_t getTicks() {
+        return ticks;
+    }
 
 private:
     bool getTime() {
