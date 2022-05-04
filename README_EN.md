@@ -1,3 +1,5 @@
+This is an automatic translation, may be incorrect in some places. See sources and examples!
+
 # Tachometer
 Tachometer library for Arduino without binding to hardware
 - Call tick() in a rising interrupt
