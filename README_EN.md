@@ -1,107 +1,122 @@
 This is an automatic translation, may be incorrect in some places. See sources and examples!
 
 # Tachometer
-Tachometer library for Arduino without binding to hardware
-- Call tick() in a rising interrupt
-- Get getRPM() frequency in rpm
-- Get getHz() frequency in Hz
-- Take getUs() period in µs
-- Built-in no signal timeout
-- Built-in averaging over n revolutions
+Tachometer library for arduino without reference to the iron
+- Call Tick () in interruption on the front
+- Take Getrpm () Frequency in rpm
+- Take Gethz () frequency in Hz
+- Take Getus () The period in the ISS
+- Built -in timout of the absence of a signal
+- Built -in averaging n revolutions
 
-### Compatibility
-Compatible with all Arduino platforms (using Arduino functions)
+## compatibility
+Compatible with all arduino platforms (used arduino functions)
 
 ## Content
-- [Install](#install)
-- [Initialization](#init)
-- [Usage](#usage)
-- [Example](#example)
-- [Versions](#versions)
-- [Bugs and feedback](#feedback)
+- [installation] (# Install)
+- [initialization] (#init)
+- [use] (#usage)
+- [Example] (# Example)
+- [versions] (#varsions)
+- [bugs and feedback] (#fedback)
 
-<a id="install"></a>
+<a id="install"> </a>
 ## Installation
-- The library can be found by the name **Tachometer** and installed through the library manager in:
-    - Arduino IDE
-    - Arduino IDE v2
-    - PlatformIO
-- [Download library](https://github.com/GyverLibs/Tachometer/archive/refs/heads/main.zip) .zip archive for manual installation:
-    - Unzip and put in *C:\Program Files (x86)\Arduino\libraries* (Windows x64)
-    - Unzip and put in *C:\Program Files\Arduino\libraries* (Windows x32)
-    - Unpack and put in *Documents/Arduino/libraries/*
-    - (Arduino IDE) automatic installation from .zip: *Sketch/Include library/Add .ZIP library…* and specify the downloaded archive
-- Read more detailed instructions for installing libraries [here] (https://alexgyver.ru/arduino-first/#%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE% D0%B2%D0%BA%D0%B0_%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA)
+- The library can be found by the name ** Tachometer ** and installed through the library manager in:
+    - Arduino ide
+    - Arduino ide v2
+    - Platformio
+- [download the library] (https://github.com/gyverlibs/tachometer/archive/refs/heads/main.zip) .Zip archive for manual installation:
+    - unpack and put in * C: \ Program Files (X86) \ Arduino \ Libraries * (Windows X64)
+    - unpack and put in * C: \ Program Files \ Arduino \ Libraries * (Windows X32)
+    - unpack and put in *documents/arduino/libraries/ *
+    - (Arduino id) Automatic installation from. Zip: * sketch/connect the library/add .Zip library ... * and specify downloaded archive
+- Read more detailed instructions for installing libraries [here] (https://alexgyver.ru/arduino-first/#%D0%A3%D1%81%D1%82%D0%B0%BD%D0%BE%BE%BE%BED0%B2%D0%BA%D0%B0_%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA)
+### Update
+- I recommend always updating the library: errors and bugs are corrected in the new versions, as well as optimization and new features are added
+- through the IDE library manager: find the library how to install and click "update"
+- Manually: ** remove the folder with the old version **, and then put a new one in its place.“Replacement” cannot be done: sometimes in new versions, files that remain when replacing are deleted and can lead to errors!
 
-<a id="init"></a>
-## Initialization
-```cpp
-Tachometer tacho;
-```
 
-<a id="usage"></a>
+<a id="init"> </a>
+## initialization
+`` `CPP
+Tachometer Tacho;
+`` `
+
+<a id="usage"> </a>
 ## Usage
-```cpp
-void tick(); // ticker - call in edge interrupt
-void setWindow(uint8_twindow); // set the number of revolutions for averaging (default 10)
-void setTimeout(uint16_t tout); // interrupt timeout (ms), after which it is considered that the rotation has stopped (default 1000)
+`` `CPP
+VOID Tick ();// ticker - call in interruption on the front
+VOID Setwindow (Uint8_T Window);// Installation of the number of revolutions for averaging (by the silence 10)
+VOID settimeout (uint16_t tout);// Timesout of interruptions (MS), after which it is believed that the rotation has stopped (by the silence 1000)
 
-uint32_t getRPM(); // get rpm
-float getHz(); // get hertz
-uint32_t getUs(); // get period in µs
-```
+uint32_t getrpm ();// Get momentum per minute
+Float gethz ();// Get Hertsy
+uint32_t getus ();// Get the period in the ISS
+`` `
 
-### Computer fan
-When connecting a computer fan tachometer, it is recommended to use an external 4.7-10 kΩ pull-up to VCC. The built-in PULLUP is not enough, sometimes interference arrives!
-![](/docs/fan.png)
+### computer fan
+When connecting a tachometer of a computer fan, it is recommended to use an external luster of 4.7-10 kOhm to VCC.The built -in Pullup is not enough, sometimes interference arrives!
+! [] (/doc/fan.png)
 
-<a id="example"></a>
+<a id="EXAMPLE"> </a>
 ## Example
-See **examples** for other examples!
-```cpp
-// measure the fan speed from the PC
-#define TACH_PIN 2 // tachometer pin (external 4.7k pullup to VCC is desirable)
+The rest of the examples look at ** Examples **!
+`` `CPP
+// Measure the fan speed from PC
+#define Tach_pin 2 // Tachometer Pin (external tightening 4.7k to VCC)
 
 #include <Tachometer.h>
-Tachometer tacho;
+Tachometer Tacho;
 
-void setup() {
-  Serial.begin(9600);
+VOID setup () {
+  Serial.Begin (9600);
 
-  // pull the fan tachometer pin to VCC
-  pinMode(TACH_PIN, INPUT_PULLUP);
+  // Pin of the fan tachometer we pull up to VCC
+  Pinmode (tach_pin, input_pullup);
 
-  // set up an interrupt
-  attachInterrupt(0, isr, FALLING);
+  // We set up an interruption
+  Attachinterrupt (0, ISR, Falling);
 
-  //tacho.setWindow(20); // setting the number of ticks for the time count (default 10)
-  //tacho.setTimeout(2000); // interrupt timeout (ms), after which it is considered that the rotation has stopped
+  //tacho.setwindow(20);// Installation of the number of ticks for the score of BPEmein (by the silence 10)
+  //tacho.settimeout (2000);// Tixout of interruptions (MS), after which it is believed that the rotation has stopped
 }
 
-// interrupt handler
-void isr() {
-  tacho.tick(); // tell the library about it
+// interruption processor
+VOID isr () {
+  tacho.tick ();// We inform the library about this
 }
 
-void loop() {
-  // output 10 times per second
-  static uint32_t tmr;
-  if (millis() - tmr > 100) {
-    tmr = millis();
-    Serial.println(tacho.getRPM()); // rpm
-    //Serial.println(tacho.getHz()); // Hz
-    //Serial.println(tacho.Us()); // us
+VOID loop () {
+  // Display 10 times per second
+  Static uint32_t tmr;
+  if (millis () - tmr> 100) {
+    TMR = Millis ();
+    Serial.println (tacho.getrpm ());// RPM
+    //Serial.println (tacho.gethz ());// hz
+    //Serial.println (tacho.us ());// us
   }
 }
-```
+`` `
 
-<a id="versions"></a>
-## Versions
-- v1.1
-- v1.2
-- v1.3 - improved stability, reduced code weight
+<a id="versions"> </a>
+## versions
+- V1.1
+- V1.2
+- V1.3 - improved stability, reduced code weight
 
-<a id="feedback"></a>
-## Bugs and feedback
-When finding bugs, create **Issue**, andis better to immediately write to the mail [alex@alexgyver.ru](mailto:alex@alexgyver.ru)
-The library is open for revision and your **Pull Request**'s!
+<a id="feedback"> </a>
+## bugs and feedback
+Create ** Issue ** when you find the bugs, and better immediately write to the mail [alex@alexgyver.ru] (mailto: alex@alexgyver.ru)
+The library is open for refinement and your ** pull Request ** 'ow!
+
+
+When reporting about bugs or incorrect work of the library, it is necessary to indicate:
+- The version of the library
+- What is MK used
+- SDK version (for ESP)
+- version of Arduino ide
+- whether the built -in examples work correctly, in which the functions and designs are used, leading to a bug in your code
+- what code has been loaded, what work was expected from it and how it works in reality
+- Ideally, attach the minimum code in which the bug is observed.Not a canvas of a thousand lines, but a minimum code
